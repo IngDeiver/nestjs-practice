@@ -11,10 +11,6 @@ export class UpdateTaskDto extends PartialType(InputTaskDto) {
     @IsString()
     _id: string
 
-    @IsDefined()
-    @IsNotEmptyObject()
-    @IsObject()
-    @ValidateNested() // valid a obkect
-    @Type(() => InputUserDto) // convert object to class
-    owner: InputUserDto
+    @IsString()
+    owner: string
 }
