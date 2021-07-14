@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserDocument, UserSchema } from './user';
+import { UserDocument, UserSchema, USER_SCHEMA } from './user';
 import * as bcrypt from 'bcrypt';
 import { HookNextFunction } from 'mongoose';
 
 @Module({
   imports: [MongooseModule.forFeatureAsync([
     {
-      name: 'users',
+      name: USER_SCHEMA,
       useFactory: () => {
         const schema = UserSchema;
 
@@ -37,6 +37,6 @@ import { HookNextFunction } from 'mongoose';
   ])],
   providers: [UserService],
   controllers: [UserController],
-  exports: [UserService]
+  exports: [UserService, MongooseModule]
 })
 export class UserModule { }

@@ -1,11 +1,12 @@
 import { PartialType,  } from "@nestjs/mapped-types"
-import { IsNotEmpty } from "class-validator"
-import { UserDocument } from "src/users/user"
+import { IsMongoId, IsNotEmpty, IsString } from "class-validator"
 import { InputTaskDto } from "./input-task.dto"
 
-
+// DTO with owner
 export  class CreateTaskDto extends PartialType(InputTaskDto) {
   
+    @IsString()
     @IsNotEmpty()
-    owner: UserDocument
+    @IsMongoId()
+    owner: string
 }

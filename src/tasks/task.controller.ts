@@ -1,10 +1,11 @@
-import { Body, Controller, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { Action } from 'src/permisions/casl/Actions';
 import { AppAbility } from 'src/permisions/casl/casl-ability.factory';
 import { CheckPolicies } from 'src/permisions/policies-check.decorator';
-import { PoliciesGuard } from 'src/permisions/policies.guard';
+import { TasksPoliciesGuard } from 'src/tasks/guards/tasks-policies.guard';
 import { CreateTaskDto } from './dto/create-task.dto.';
+import { FindTaskDto } from './dto/find-task.dto';
 import { InputTaskDto } from './dto/input-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './task';
@@ -17,20 +18,27 @@ export class TaskController {
 
     @Post()
     create(@Body() task: InputTaskDto, @Req() req){
-        console.log("body->", task);
-        
-        console.log("id->", req.user._id);
         const taskWithOwner: CreateTaskDto = plainToClass(CreateTaskDto, { ...task, owner: req.user._id })
-        console.log("taskWithOwner-> ", taskWithOwner);
-        
         return this._taskService.create(taskWithOwner)
     }
 
-    @UseGuards(PoliciesGuard)
+    @UseGuards(TasksPoliciesGuard)
     @CheckPolicies((ability: AppAbility, subject: Task) => ability.can(Action.Update, subject))
     @Put()
-    update(@Body() task: UpdateTaskDto){
-        console.log("task -> ", task);
-        return this._taskService.update(task)
+    update(@Body() body: UpdateTaskDto){
+        const task: Task = plainToClass(Task, body)
+        return this._taskService.update(task, body._id)
+    }
+
+    @Get()
+    findAll(@Req() req){
+        return this._taskService.findAll(req.user._id)
+    }
+
+    @UseGuards(TasksPoliciesGuard)
+    @CheckPolicies((ability: AppAbility, subject: Task) => ability.can(Action.Read, subject))
+    @Get(':_id')
+    findById(@Param() params : FindTaskDto){
+        return this._taskService.findById(params._id)
     }
 }

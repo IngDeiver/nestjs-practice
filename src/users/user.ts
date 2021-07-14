@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 
 
 export type UserDocument = User & Document;
+export const USER_SCHEMA = 'User'
 
 @Schema()
 export class User {
@@ -13,7 +14,7 @@ export class User {
     @Prop()
     username: string
 
-    @Prop()
+    @Prop({ select: false })
     password: string
 }
 
