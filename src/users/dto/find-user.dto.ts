@@ -1,4 +1,10 @@
-import { OmitType } from "@nestjs/mapped-types";
-import { CreateUserDto } from "./create-user.dto";
+import { IsMongoId, IsNotEmpty } from "class-validator"
+import * as mongoose from 'mongoose'
 
-export class  FindUserDto  extends OmitType(CreateUserDto, ['username']) {}
+// DTO with owner
+export  class FindUserDto  {
+  
+    @IsNotEmpty()
+    @IsMongoId()
+    _id: mongoose.Types.ObjectId 
+}

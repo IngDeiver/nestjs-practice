@@ -1,10 +1,10 @@
-import { IsMongoId, IsNotEmpty, IsString } from "class-validator"
+import { IsMongoId, IsNotEmpty } from "class-validator"
+import * as mongoose from 'mongoose'
 
 // DTO with owner
 export  class FindTaskDto  {
   
-    @IsString()
     @IsNotEmpty()
     @IsMongoId()
-    _id: string
+    _id: mongoose.Types.ObjectId 
 }

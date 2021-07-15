@@ -16,7 +16,8 @@ import { PermisionsModule } from './permisions/permisions.module';
     imports:[ConfigModule],
     useFactory: async (configService: ConfigService) => ({
       uri: configService.get<string>('DB_URI'),
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: false
     }),
     inject: [ConfigService]
   }), AuthModule, PermisionsModule],

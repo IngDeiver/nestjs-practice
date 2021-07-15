@@ -1,9 +1,8 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { SkipAuth } from 'src/auth/skip-auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto'
 import { UserService } from './user.service';
 
-// Authentication
 // Send emails
 
 @Controller('users')

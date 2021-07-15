@@ -1,5 +1,5 @@
 import { SetMetadata } from "@nestjs/common";
-import { PolicyHandler } from './policyHandler'
+import { PolicyHandler } from '../policyHandler'
 
 export const CHECK_POLICIES_KEY = 'check_policy';
 export const CheckPolicies = (...handlers: PolicyHandler[]) =>

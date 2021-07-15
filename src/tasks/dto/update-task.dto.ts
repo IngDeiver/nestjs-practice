@@ -1,16 +1,11 @@
 import { PartialType, } from "@nestjs/mapped-types"
-import { IsMongoId, IsNotEmpty,IsNotEmptyObject,IsString, ValidateNested } from "class-validator"
-import { UserDocument } from "src/users/user"
+import { IsMongoId, IsNotEmpty } from "class-validator"
 import { InputTaskDto } from "./input-task.dto"
-
+import * as mongoose from 'mongoose'
 
 // DTO require owner and _id
 export class UpdateTaskDto extends PartialType(InputTaskDto) {
     @IsNotEmpty()
-    @IsString()
-    _id: string
-
-    @IsNotEmpty()
     @IsMongoId()
-    owner: string
+    owner: mongoose.Types.ObjectId // danger?
 }

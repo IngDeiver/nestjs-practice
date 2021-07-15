@@ -11,9 +11,9 @@ export type AppAbility = Ability<[Action, Subjects]>;
 @Injectable()
 export class CaslAbilityFactory {
 
-  createForUser(user: UserDocument) { // create habilities for users
+  createForUser(user: UserDocument, propToValidate: string = null) { // create habilities for users
     const { can, build } = new AbilityBuilder<Ability<[Action, Subjects]>>(Ability as AbilityClass<AppAbility>);
-    const condiction = { owner: user._id }
+    const condiction = { [propToValidate ? propToValidate : 'owner']: user._id }
     // See https://casl.js.org/v5/en/advanced/typescript#nested-fields-with-dot-notation
     can([Action.Read, Action.Delete, Action.Update], Task, condiction);
 

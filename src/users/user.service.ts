@@ -4,12 +4,14 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserDocument, USER_SCHEMA } from './user';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
+import * as mongoose from 'mongoose'
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel(USER_SCHEMA) private  readonly _userModel: Model<UserDocument>){}
 
     save(user: CreateUserDto): Promise<UserDocument> {
+        user['_id'] = new mongoose.Types.ObjectId()
         return new this._userModel(user).save()
     }
 
@@ -17,7 +19,7 @@ export class UserService {
         return this._userModel.findOne({ email }).select('+password')
     }
 
-    finById(_id: string) {
+    finById(_id: mongoose.Types.ObjectId) {
         return this._userModel.findById(_id)
     }
 
